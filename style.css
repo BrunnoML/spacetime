@@ -9,12 +9,24 @@
 body {
   background-color: #121215;
   color: #eaeaea;
-  font-family: 'Roboto', sans-serif; /*se a primeira fonte Roboto não funcionar, então será utilizada a próxima, no caso a sans-serif */
+  font-family: "Roboto", sans-serif; /*se a primeira fonte Roboto não funcionar, então será utilizada a próxima, no caso a sans-serif */
 
+  /*definindo a forma de visualização da página com duas colunas, uma será profile e outra será timeline*/
+  display: grid;
+  grid-template-areas: "profile timeline";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100vh;
 }
 
 nav {
   padding: 64px;
+  /*definindo que a area da NAV será a coluna de nome timeline*/
+  grid-area: timeline;
+
+  /*
+  Quando o conteúdo não ficar semelhante nas duas colunas, para evitar que o que tiver mais conteúdo na vertical desça com a rolagem e o outro fique sem conteúdo, podemos deixar um lado FIXO e o outro a cada vez que for acrescentando conteúdo, APENAS ele criará uma barra de rolagem. Abrindo o CSS e inserindo na NAV o seguinte:
+  */
+  overflow-y: scroll;
 }
 
 .memory {
@@ -23,13 +35,12 @@ nav {
   gap: 16px; /*colocar espaçamento entre as caixas */
   text-decoration: none; /*para retirar a linha que ficou sublinhando todos os textos para apontar que se trata de um link */
   margin-bottom: 64px; /*para inserir uma espaço entre cada postagem que começa com a data */
-
 }
 /*Para acessar uma id que tem peso 100, utilizamos #id, para acessar uma classe que tem peso 10, utilizamos .class, para acessar um elemento que tem peso 1, utilizamos element (o próprio nome do elemento). Para acessar o elemento small dentro da div que tem a classe memory, basta colocar primeiro a classe e depois informar o elemento*/
 .memory small {
   color: #bebebf;
   font-size: 12px;
-} 
+}
 
 .memory h1 {
   font-size: 32px;
@@ -48,4 +59,50 @@ nav {
   font-size: 18px;
   color: #bebebf;
   line-height: 28px;
+}
+
+aside {
+  /* definido como a área/coluna do lado esquerdo da página */
+  grid-area: profile;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+  gap: 20px;
+
+  /* Vamos acrescentar uma linha entre as colunas e deixar ela de forma gradiente. */
+  border-right: 1px solid;
+  border-image: linear-gradient(#727275, #2c2c31) 1;
+
+  /* Agora vamos inserir uma imagem de fundo e organizar para que ela fique até em cima e até a lateral direita, bem como que não se repita e ocupe 100% da área do profile ou NAV. */
+  background-image: url("./assets/background.svg");
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+/*
+como dentro do aside temos duas imagens, para alterar apenas uma delas, utilizamos a tag aside img e acrescentamos nth-child(2) para selecionar a segunda imagem, no caso seria o segundo filho, a foto de Brunno ML
+Também vamos definir a imagem para ficar de um tamanho menor com largura e altura de 160px cada e fazer com que ela deixe de ser quadrada e se apresente de forma redonda com a propriedade border-radius e valor 50%.
+Acrescentar uma borda gradiente.
+*/
+aside img:nth-child(2) {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  background: linear-gradient(#d39e33, #ed5636, #633bbc) padding-box, linear-gradient(#d39e33, #ed5636) border-box;
+
+}
+
+aside p {
+  font-size: 32px;
+  text-align: center;
+}
+
+aside span {
+  font-size: 12px;
+  color: #9e9ea0;
 }
