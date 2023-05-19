@@ -6,9 +6,37 @@
   box-sizing: border-box;
 }
 
+:root {
+  font-size: 16px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2c2c31;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9e9ea0;
+}
+
+@keyframes entering {
+  from {
+    opacity: 0;
+    transform: translateY(-200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 body {
   background-color: #121215;
   color: #eaeaea;
+
   font-family: "Roboto", sans-serif; /*se a primeira fonte Roboto não funcionar, então será utilizada a próxima, no caso a sans-serif */
 
   /*definindo a forma de visualização da página com duas colunas, uma será profile e outra será timeline*/
@@ -27,6 +55,7 @@ nav {
   Quando o conteúdo não ficar semelhante nas duas colunas, para evitar que o que tiver mais conteúdo na vertical desça com a rolagem e o outro fique sem conteúdo, podemos deixar um lado FIXO e o outro a cada vez que for acrescentando conteúdo, APENAS ele criará uma barra de rolagem. Abrindo o CSS e inserindo na NAV o seguinte:
   */
   overflow-y: scroll;
+  animation: entering 0.7s ease-in-out;
 }
 
 .memory {
@@ -39,11 +68,11 @@ nav {
 /*Para acessar uma id que tem peso 100, utilizamos #id, para acessar uma classe que tem peso 10, utilizamos .class, para acessar um elemento que tem peso 1, utilizamos element (o próprio nome do elemento). Para acessar o elemento small dentro da div que tem a classe memory, basta colocar primeiro a classe e depois informar o elemento*/
 .memory small {
   color: #bebebf;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .memory h1 {
-  font-size: 32px;
+  font-size: 2rem;
   color: #eaeaea;
 }
 
@@ -53,10 +82,25 @@ nav {
   /*Para a imagem não ficar desproporcional, utilizamos a propriedade object-fit: cover, dessa forma ela vai acompanhar de forma proporcional o aumento ou diminuição do tamanho da página*/
   object-fit: cover;
   border-radius: 8px;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+/*comando para aumentar a imagem na proporção 1.1 ao passar o mouse em cima da imagem*/
+.memory:hover img {
+  transform: scale(1.1);
+}
+
+/*para aumentar o zoom só da imagem, foi colocado uma DIV nela e definido a largura e altura, bem como definido que ao aumentar, o que passar do tamanho definido dela, não seja mostrado, fique escondido com o hidden*/
+.memory div {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .memory p {
-  font-size: 18px;
+  font-size: 1.2rem;
   color: #bebebf;
   line-height: 28px;
 }
@@ -68,7 +112,6 @@ aside {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   justify-content: center;
   gap: 20px;
 
@@ -80,9 +123,12 @@ aside {
   background-image: url("./assets/background.svg");
   background-position: top right;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: auto 100%;
 }
 
+aside * {
+  animation: entering 0.7s ease-in-out;
+}
 /*
 como dentro do aside temos duas imagens, para alterar apenas uma delas, utilizamos a tag aside img e acrescentamos nth-child(2) para selecionar a segunda imagem, no caso seria o segundo filho, a foto de Brunno ML
 Também vamos definir a imagem para ficar de um tamanho menor com largura e altura de 160px cada e fazer com que ela deixe de ser quadrada e se apresente de forma redonda com a propriedade border-radius e valor 50%.
@@ -92,17 +138,42 @@ aside img:nth-child(2) {
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  border: 4px solid transparent;
-  background: linear-gradient(#d39e33, #ed5636, #633bbc) padding-box, linear-gradient(#d39e33, #ed5636) border-box;
 
+  border: 4px solid transparent;
+  background: linear-gradient(#d39e33, #ed5636, #633bbc) padding-box,
+    linear-gradient(#d39e33, #ed5636) border-box;
 }
 
 aside p {
-  font-size: 32px;
+  font-size: 2rem;
   text-align: center;
 }
 
 aside span {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #9e9ea0;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 0.8fr;
+    grid-template-areas:
+      "profile"
+      "timeline";
+  }
+
+  aside {
+    border-right: none;
+    padding: 32px 12px;
+  }
+
+  nav {
+    overflow-y: visible;
+    padding: 22px;
+  }
 }
